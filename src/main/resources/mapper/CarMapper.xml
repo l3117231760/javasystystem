@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.li.mapper.CarMapper">
+    <select id="listAll" resultType="com.li.entity.Car">
+        select * from car
+    </select>
+
+    <select id="pageC" resultType="com.li.entity.Car">
+        select * from car where cstatus = '1'
+    </select>
+    <select id="pageCC" resultType="com.li.entity.Car">
+        select * from (select * from car where cstatus = '1') ax ${ew.customSqlSegment}
+    </select>
+    <select id="pageCR" resultType="com.li.entity.Dates">
+<!--         SELECT * FROM orders O  JOIN car C ON C.cid=O.cid WHERE C.cstatus=0 and O.orderstatus=1${ew.customSqlSegment}-->
+        SELECT* FROM(SELECT C.*,O.orderid,O.userid FROM orders O  inner JOIN car C ON C.cid=O.cid
+        WHERE C.cstatus=0 and O.orderstatus=1)  a  ${ew.customSqlSegment}
+    </select>
+</mapper>
